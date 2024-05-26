@@ -8,36 +8,24 @@ import numpy as np
 from geometry_msgs.msg import Twist 
 
 
-
-
 class LoadPeople(object):
 
     def __init__(self):
     
-        self.image_sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)              
-        self.bridge_object = CvBridge()        
-        self.a = 0.0
-        self.b = 0.0
-
-    def sonar_callback(self, msg):
-        self.a = msg.range 
+        self.sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)              
+        self.bridge = CvBridge()        
 
     def camera_callback(self,data):
         try:
-            # We select bgr8 because its the OpenCV encoding by default
-            cv_image = self.bridge_object.imgmsg_to_cv2(data, desired_encoding="bgr8")
+            cv_image = self.bridge.imgmsg_to_cv2(data, desired_encoding="bgr8")
         except CvBridgeError as e:
             print(e)                      
 
+        # detect people using HOG
         hog = cv.HOGDescriptor()
         hog.setSVMDetector(cv.HOGDescriptor_getDefaultPeopleDetector())
 
-        
-        #Size for the image 
-        imX = 700
-        imY = 500
-
-        img_2 = cv.resize(cv_image,(imX,imY))
+        img_2 = cv.resize(cv_image,(700,500))
         gray_2 = cv.cvtColor(img_2, cv.COLOR_RGB2GRAY)
         boxes_2, weights_2 = hog.detectMultiScale(gray_2, winStride=(8,6) )
         boxes_2 = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes_2])
