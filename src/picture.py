@@ -11,18 +11,16 @@ class LoadPicture(object):
 
     def __init__(self):
     
-        self.image_sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)
-        self.bridge_object = CvBridge()
+        self.sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)
+        self.bridge = CvBridge()
 
     def camera_callback(self,data):
         try:
-            # select bgr8 because its the OpenCV encoding by default
-            cv_image = self.bridge_object.imgmsg_to_cv2(data, desired_encoding="bgr8")
+            cv_image = self.bridge.imgmsg_to_cv2(data, desired_encoding="bgr8")
         except CvBridgeError as e:
             print(e)
         
-
-        cv.imwrite('~/catkin_ws/src/RobotPerception/images/image.jpg',cv_image)
+        cv.imwrite('/home/user/catkin_ws/src/robot-perception/images/image.jpg',cv_image)
         cv.imshow('image',cv_image)
         cv.waitKey(1)
 
