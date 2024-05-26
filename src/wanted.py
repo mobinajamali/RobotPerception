@@ -4,34 +4,28 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 import cv2 as cv
 import numpy as np
-import matplotlib.pyplot as plt
 
 
 class LoadFeature(object):
 
     def __init__(self):
     
-        self.image_sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)
-        self.bridge_object = CvBridge()
-        self.x = 4
+        self.sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)
+        self.bridge = CvBridge()
 
     def camera_callback(self,data):
         try:
-            cv_image = self.bridge_object.imgmsg_to_cv2(data, desired_encoding="bgr8")
+            cv_image = self.bridge.imgmsg_to_cv2(data, desired_encoding="bgr8")
         except CvBridgeError as e:
             print(e)
         
 
-        image_1 = cv.imread('~/catkin_ws/src/RobotPerception/images/person1.png',1)
+        image_1 = cv.imread('/home/user/catkin_ws/src/robot-perception/images/image.jpg',1)
         image_2 = cv_image
         hog = cv.HOGDescriptor()
         hog.setSVMDetector(cv.HOGDescriptor_getDefaultPeopleDetector())
         
-        #Size for the image 
-        imX = 700
-        imY = 500
-
-        img_2 = cv.resize(cv_image,(imX,imY))
+        img_2 = cv.resize(cv_image,(700,500))
         image_2 = img_2
 
         gray_2 = cv.cvtColor(img_2, cv.COLOR_RGB2GRAY)
@@ -62,7 +56,7 @@ class LoadFeature(object):
         #Initialize the ORB Feature detector 
         orb = cv.ORB_create(nfeatures = 1000)
 
-        #Make a copy of th eoriginal image to display the keypoints found by ORB
+        #Make a copy of the original image to display the keypoints found by ORB
         #This is just a representative
         preview_1 = np.copy(image_1)
         preview_2 = np.copy(image_2)
@@ -78,9 +72,7 @@ class LoadFeature(object):
         cv.drawKeypoints(image_1, train_keypoints, preview_1, flags = cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
         cv.drawKeypoints(image_1, train_keypoints, dots, flags=2)
 
-        #############################################
         ################## MATCHER ##################
-        #############################################
 
         #Initialize the BruteForce Matcher
         bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck = True)
@@ -90,19 +82,15 @@ class LoadFeature(object):
 
         #The matches with shorter distance are the ones we want.
         matches = sorted(matches, key = lambda x : x.distance)
-        #Catch some of the matching points to draw
-        
-            
-        good_matches = matches[:self.x] 
-        
 
+        #Catch some of the matching points to draw           
+        good_matches = matches[:313] 
+        
         #Parse the feature points
         train_points = np.float32([train_keypoints[m.queryIdx].pt for m in good_matches]).reshape(-1,1,2)
         test_points = np.float32([test_keypoints[m.trainIdx].pt for m in good_matches]).reshape(-1,1,2)
 
         #Create a mask to catch the matching points 
-        #With the homography we are trying to find perspectives between two planes
-        #Using the Non-deterministic RANSAC method
         M, mask = cv.findHomography(train_points, test_points, cv.RANSAC,5.0)
 
         #Catch the width and height from the main image
@@ -114,32 +102,20 @@ class LoadFeature(object):
         #Create the perspective in the result 
         dst = cv.perspectiveTransform(pts,M)
 
-        #Draw the matching lines 
-        
 
         # Draw the points of the new perspective in the result image (This is considered the bounding box)
         result = cv.polylines(image_2, [np.int32(dst)], True, (50,0,255),3, cv.LINE_AA)
 
-        #addition = cv2.add(img_2,image_2)
-        cv.imshow('image',img_2)
-        cv.imshow('Points',preview_1)       
-        cv.imshow('Detection',image_2)       
+
+        cv.imshow('Points',preview_1)        
+        cv.imshow('Result',result)      
         cv.waitKey(1)
-
-
     
-    def prove(self):
-        for self.x in range(4,1001,3):
-            for y in range (1,500):
-
-                print (self.x)
-                rospy.sleep(0.0001 )       
             
     
 if __name__ == '__main__':
     load_feature_object = LoadFeature()
     rospy.init_node('load_feature_node', anonymous=True)
-    load_feature_object.prove()
     try:
         rospy.spin()
         
