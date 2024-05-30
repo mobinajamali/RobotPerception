@@ -18,7 +18,7 @@ class LoadPicture(object):
 
     def camera_callback(self,data):
         try:
-            cv_image = self.bridge.imgmsg_to_cv2(data, desired_encoding="bgr8")
+            cv_image = self.bridge.imgmsgadded_to_cv2(data, desired_encoding="bgr8")
         except CvBridgeError as e:
             print(e)
         

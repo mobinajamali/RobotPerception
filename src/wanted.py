@@ -8,8 +8,8 @@ import numpy as np
 
 class LoadFeature(object):
     """
-    detect and match features between camera feed 
-    and stored image 
+    detect wanted person using the Histogram of Oriented Gradients (HOG) descriptor 
+    and match features between camera livefeed and stored image 
     """
     def __init__(self):
     
