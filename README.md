@@ -19,9 +19,10 @@ There is a dangerous person in the city, and many possible suspects are close to
 - Image Feature Matching: Extract and match features from different images using ORB detector.
 - Image Documentation: Capture and save images from the camera feed.
 
+
 <div style="display: flex; justify-content: space-between;">
-  <img src="./images/artag.png" alt="artag" style="width: 45%;"/>
-  <img src="./images/founded.png" alt="founded" style="width: 45%;"/>
+  <img src="./images/artag.png" alt="artag" style="height: 200px; margin-right: 10px;"/>
+  <img src="./images/founded.png" alt="founded" style="height: 200px;"/>
 </div>
 
 
