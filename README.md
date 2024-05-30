@@ -1,6 +1,6 @@
 # rosbot-perception
 
-This repository focuses on [rosbot](https://husarion.com/manuals/rosbot/)perception capabilities using ROS. The primary functionalities include object detection, 
+This repository focuses on [rosbot](https://husarion.com/manuals/rosbot/) perception capabilities using ROS. The primary functionalities include object detection, 
 AR tag recognition, and image processing using OpenCV. The code is structured to subscribe to the robot's camera feed, process the 
 images, and execute various perception tasks.
 
@@ -18,7 +18,8 @@ There is a dangerous person in the city, and many possible suspects are close to
 - People Detection: Identify and mark people in the camera feed using HOG descriptor.
 - Image Feature Matching: Extract and match features from different images using ORB detector.
 - Image Documentation: Capture and save images from the camera feed.
-[artag](./images/artag.png) [founded](./images/founded.png)
+
+![artag](./images/artag.png) ![founded](./images/founded.png)
 
 
 1. Clone the repository:
