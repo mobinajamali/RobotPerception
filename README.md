@@ -19,16 +19,19 @@ There is a dangerous person in the city, and many possible suspects are close to
 - Image Feature Matching: Extract and match features from different images using ORB detector.
 - Image Documentation: Capture and save images from the camera feed.
 
-![artag](./images/artag.png) ![founded](./images/founded.png)
+<div style="display: flex; justify-content: space-between;">
+  <img src="./images/artag.png" alt="artag" style="width: 45%;"/>
+  <img src="./images/founded.png" alt="founded" style="width: 45%;"/>
+</div>
 
 
 1. Clone the repository:
-'''bash
+```bash
 git clone git@github.com:mobinajamali/RobotPerception.git
-'''
+```
 2. Install dependencies:
-'''bash
+```bash
 pip install -r requirements.txt
-'''
+```
 
 
