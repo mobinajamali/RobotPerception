@@ -1,0 +1,3 @@
+<launch>
+    <node pkg='robot-perception' name='load_feature_node' type='wanted.py' output='screen'/>
+</launch>
