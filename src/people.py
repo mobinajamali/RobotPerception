@@ -9,7 +9,10 @@ from geometry_msgs.msg import Twist
 
 
 class LoadPeople(object):
-
+    """
+    detect people in images captured by camera, 
+    using the Histogram of Oriented Gradients (HOG) descriptor
+    """
     def __init__(self):
     
         self.sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)              
@@ -21,30 +24,26 @@ class LoadPeople(object):
         except CvBridgeError as e:
             print(e)                      
 
-        # detect people using HOG
+        # initialize HOG descriptor
         hog = cv.HOGDescriptor()
         hog.setSVMDetector(cv.HOGDescriptor_getDefaultPeopleDetector())
-
+        # process the images
         img_2 = cv.resize(cv_image,(700,500))
         gray_2 = cv.cvtColor(img_2, cv.COLOR_RGB2GRAY)
+        # detect people using HOG
         boxes_2, weights_2 = hog.detectMultiScale(gray_2, winStride=(8,6) )
         boxes_2 = np.array([[x, y, x + w, y + h] for (x, y, w, h) in boxes_2])
 
-
+        # iterate over detected bounding boxes, calculate the center of each bounding box 
+        # and draw a circle at the center, draw rectangles around detected people
         for (xA, yA, xB, yB) in boxes_2:
             
-            #Center in X 
             medX = xB - xA 
             xC = int(xA+(medX/2)) 
-
-            #Center in Y
             medY = yB - yA 
             yC = int(yA+(medY/2)) 
 
-            #Draw a circle in the center of the box 
             cv.circle(img_2,(xC,yC), 1, (0,255,255), -1)
-
-            # display the detected boxes in the colour picture
             cv.rectangle(img_2, (xA, yA), (xB, yB),(255, 255, 0), 2)    
   
             
