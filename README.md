@@ -6,7 +6,7 @@ images, and execute various perception tasks.
 
 **Note:** The work was developed and tested on a simulation workspace provided by [Bitbucket: Public Simulations](https://bitbucket.org/theconstructcore/workspace/projects/PS)
 
-![world](./images/world.png)
+<img src="./images/world.png" alt="world" style="height: 300px; width: auto;"/>
  
 
 **Scenario**:
@@ -21,7 +21,7 @@ There is a dangerous person in the city, and many possible suspects are close to
 
 
 <div style="display: flex; justify-content: space-between;">
-  <img src="./images/artag.png" alt="artag" style="height: 200px; margin-right: 10px;"/>
+  <img src="./images/artag.png" alt="artag" style="height: 200px;"/>
   <img src="./images/founded.png" alt="founded" style="height: 200px;"/>
 </div>
 
