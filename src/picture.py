@@ -8,7 +8,9 @@ import numpy as np
 
 
 class LoadPicture(object):
-
+    """
+    capture images from camera and save them 
+    """
     def __init__(self):
     
         self.sub = rospy.Subscriber("/camera/rgb/image_raw",Image,self.camera_callback)
