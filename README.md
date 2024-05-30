@@ -6,7 +6,9 @@ images, and execute various perception tasks.
 
 **Note:** The work was developed and tested on a simulation workspace provided by [Bitbucket: Public Simulations](https://bitbucket.org/theconstructcore/workspace/projects/PS)
 
-<img src="./images/world.png" alt="world" style="height: 300px; width: auto;"/>
+<div style="text-align: center;">
+    <img src="./images/world.png" alt="world" style="height: 300px; width: auto;"/>
+</div>
  
 
 **Scenario**:
@@ -20,7 +22,7 @@ There is a dangerous person in the city, and many possible suspects are close to
 - Image Documentation: Capture and save images from the camera feed.
 
 
-<div style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between; text-align: center;">
   <img src="./images/artag.png" alt="artag" style="height: 200px;"/>
   <img src="./images/founded.png" alt="founded" style="height: 200px;"/>
 </div>
